@@ -1,0 +1,27 @@
+authenticate_service_url: https://authenticate.pomerium.app
+
+####################################################################################
+# If self-hosting, you must configure an identity provider.                        #
+# See identity provider settings: https://www.pomerium.com/docs/identity-providers/#
+####################################################################################
+jwt_claim_headers: email
+# https://pomerium.com/reference/#routes
+routes:
+  - from: https://foo.localhost.pomerium.io
+    to: http://httpbin:80
+    policy:
+      - allow:
+          or:
+            - email:
+                is: gaurdro@gaurdro.net
+    pass_identity_headers: true
+    jwt_claims_headers: email,user
+  - from: https://verify.localhost.pomerium.io
+    to: http://guacamole:8080
+    policy:
+      - allow:
+          or:
+            - email:
+                is: gaurdro@gaurdro.net
+    pass_identity_headers: true
+    jwt_claims_headers: email
